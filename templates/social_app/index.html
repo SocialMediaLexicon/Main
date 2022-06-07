@@ -4,6 +4,8 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
+        <br><br><br>
+        <h1 class="text-center mb-5 text-primary">Framedoor</h1>
         <section>
         <div class="mask d-flex align-items-center h-100 gradient-custom-3">
             <div class="container h-100">
@@ -29,7 +31,7 @@
                             class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Log in</button>
                         </div>
 
-                        <p class="text-center text-muted mt-5 mb-0">Don't have an account? <a href="registration.html" class="fw-bold text-body"><u>Sign up here</u></a></p>
+                        <p class="text-center text-muted mt-5 mb-0">Don't have an account? <a href="{% url 'register' %}" class="fw-bold text-body"><u>Sign up here</u></a></p>
                     </form>
                     </div>
                 </div>
