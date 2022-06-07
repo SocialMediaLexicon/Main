@@ -6,7 +6,7 @@ def base(request):
     return render(request, 'social_app/base.html')
 
 def register(request):
-    return render(request, 'social_app/registration.html')
+    return render(request, 'users/registration.html')
 
-def index(request):
-    return render(request, 'social_app/index.html')
+def login(request):
+    return render(request, 'users/login.html')
