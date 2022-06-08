@@ -5,4 +5,3 @@ from django.shortcuts import render
 # def base(request):
 #     return render(request, 'social_app/base.html')
 
-
