@@ -100,5 +100,5 @@ def editprofile(request):
             return redirect( 'login')
     return render(request, "users/editprofile.html", {'user_form':userpro, 'profile_form': profile_form})
 
-def user_login(request):
-    return render(request, 'users/login.html')
+# def user_login(request):
+#     return render(request, 'users/login.html')
