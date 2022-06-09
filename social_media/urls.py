@@ -27,5 +27,6 @@ urlpatterns = [
     url(r'^register/$', user_views.register, name='register'),
     url(r'^logout/$', user_views.user_logout, name="logout"),
     url(r'^login/$', user_views.login, name="login"),
+    url(r'^user/', include('social_app.urls')),
     #url(r'^editprofile/$', user_views.editprofile, name="editprofile"),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
