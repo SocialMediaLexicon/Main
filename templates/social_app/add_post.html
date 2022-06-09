@@ -1,0 +1,15 @@
+{% extends 'social_app/base.html' %}
+
+
+{% block content %}
+
+<br><br><br><br>
+<div class="d-flex justify-content-center">
+    <form method='POST' class="d-flex flex-sm-column justify-content-center">
+        {% csrf_token %}
+        {{ form }}
+        <br>
+        <button class="btn btn-primary mt-3" type=submit>Post!</button>
+    </form>
+</div>
+{% endblock %}
