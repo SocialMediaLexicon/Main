@@ -5,7 +5,7 @@
 
 <br><br><br><br>
 <div class="d-flex justify-content-center">
-    <form method='POST' class="d-flex flex-sm-column justify-content-center">
+    <form method='POST' action="{% url 'user:add_post' %}" class="d-flex flex-sm-column justify-content-center">
         {% csrf_token %}
         {{ form }}
         <br>
