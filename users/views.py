@@ -15,13 +15,14 @@ from social_app.models import Post
 # Create your views here.
 @login_required
 def user_profile(request):
-    queryset = Post.objects.filter(post_status='1')
+    queryset = Post.objects.filter(post_status=1)
+    post_dict = {'post_list' : queryset}
 
-    post_dict = {'post_list': queryset}
-    print(post_dict)
-    return render(request, 'users/login.html', context=post_dict)
+    return render(request, "users/login.html")
 
 def login(request):
+    queryset = Post.objects.filter(post_status=1)
+    post_dict = {'post_list' : queryset}
     #user = UserForm()
     #print(user.username, user.password)
     if request.method == 'POST':
@@ -47,7 +48,7 @@ def login(request):
             #return 'bla'
 
     else:
-        return render(request, 'users/user_profile.html')
+        return render(request, 'users/user_profile.html', context=post_dict)
      #return render(request, 'users/user_profile.html')
 
 def register(request):
@@ -101,7 +102,6 @@ def editprofile(request):
     user = request.user
     userpro =UpdateUserForm(instance=user)
     profile_form = UserProfileForm(instance=request.user.profile)
-
     if request.method=="POST":
         user_form = UpdateUserForm(data=request.POST, instance=request.user)
         profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.profile)
@@ -110,7 +110,7 @@ def editprofile(request):
             user_form.save()
             profile_form.save()
             return redirect( 'login')
-    return render(request, "users/editprofile.html", {'user_form':userpro, 'profile_form': profile_form})
+    return render(request, "users/editprofile.html")
 
 # def user_login(request):
 #     return render(request, 'users/login.html')

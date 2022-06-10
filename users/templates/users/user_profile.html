@@ -50,16 +50,15 @@
     
     </div>
 </div>
-<div class="container mt-5 mb-3">
-  <div class="row">
 
-    <h1>Hello {{post_list.author}}</h1>
+ 
+    
     {% for post in post_list %}
     <div class="card shadow " style="width: 20rem; height: 30rem;" >
          
 
           <div class="card-body" style="overflow:hidden;">
-            <h5 class="card-title">{{post.author}}</h5>
+            <h5 class="card-title">{{post.author}}</h5> 
             <p class="card-text">{{ post.post_content | truncatechars:50}}</p>
             
           </div>
@@ -75,7 +74,7 @@
           </div>
 
     </div>
-    {% endfor %}
+    {% endfor %} 
 
 {% endblock %}
 
