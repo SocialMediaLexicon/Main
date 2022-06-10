@@ -102,41 +102,5 @@
 
 {% block script %}
 
-	
-<script>
-	$('#exampleModal').on('show.bs.modal', function (event) {
-		var button = $(event.relatedTarget) 
-		var mcontents = button.data('contents') 
-		var mtitle = button.data('title') 
-		
-		var modal = $(this)
-		var mlist = ""
-		var mbody = ""
 
-		if (mtitle === "Followers") {
-			mtitle = mtitle + ' ({{object.user.following.count}})'
-			{% for fs in object.user.following.all %}
-				mlist += `<li class="m-1">
-							<a href="{% url 'users:user_profile_details' id=fs.id %}">
-								{{fs.user}}
-							</a>
-						</li>`
-			{% endfor %}
-			mbody = `<ul>${mlist}</ul>`
-		}
-		if (mtitle === "Following") {
-			mtitle = mtitle + ' ({{object.user.profile.following.count}})'
-			{% for fs in object.user.profile.following.all %}
-				mlist += `<li class="m-1">
-							<a href="{% url 'users:user_profile_details' id=fs.id %}">
-								{{fs.user}}
-							</a>
-						</li>`
-			{% endfor %}
-			mbody = `<ul>${mlist}</ul>`
-		}
-		modal.find('.modal-title').text(mtitle)
-		modal.find('.modal-body').html(mbody)
-	});
-</script>
 {% endblock %}
