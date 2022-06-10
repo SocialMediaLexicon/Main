@@ -1,6 +1,5 @@
 from django.db import models
 from users.models import Profile
-from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -12,7 +11,7 @@ status = [('1', 'publish'),
           ('2', 'draft')]
 
 class Post(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE)
     post_content = models.TextField(max_length=2000, null=False)
     media = models.FileField(upload_to='post_files',blank=True,null=True)
     likes = models.ManyToManyField(Profile, blank=True, related_name='post_likes')
