@@ -5,9 +5,21 @@ from django.contrib.auth import authenticate, login as dj_login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
+from django.views.generic import ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import Profile
+from django.contrib.auth.models import User
+from social_app.models import Post
 
 
 # Create your views here.
+@login_required
+def user_profile(request):
+    queryset = Post.objects.filter(post_status='1')
+
+    post_dict = {'post_list': queryset}
+    print(post_dict)
+    return render(request, 'users/login.html', context=post_dict)
 
 def login(request):
     #user = UserForm()
@@ -102,3 +114,35 @@ def editprofile(request):
 
 # def user_login(request):
 #     return render(request, 'users/login.html')
+
+class ProfileListView(LoginRequiredMixin,ListView):
+    model = Profile
+    template_name = "users/all_profiles.html"
+    context_object_name = "profiles"
+
+    def get_queryset(self):
+        return Profile.objects.all().exclude(user=self.request.user)
+
+
+class ProfileDetailView(LoginRequiredMixin,DetailView):
+    model = Profile
+    template_name = "users/user_profile_details.html"
+    context_object_name = "profiles"
+
+    def get_queryset(self):
+        return Profile.objects.all().exclude(user=self.request.user)
+
+    def get_object(self,**kwargs):
+        id = self.kwargs.get("id")
+        view_profile = Profile.objects.get(id=id)
+        return view_profile
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     view_profile = self.get_object()
+    #     my_profile = Profile.objects.get(user=self.request.user)
+    #     if view_profile.user in my_profile.following.all():
+    #         follow = True
+    #     else:
+    #         follow = False
+    #     context["follow"] = follow

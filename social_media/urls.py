@@ -20,6 +20,7 @@ from users import views as user_views
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
     url(r'^$', user_views.home, name='home'), 
     url(r'^admin/', admin.site.urls),
@@ -28,5 +29,6 @@ urlpatterns = [
     url(r'^logout/$', user_views.user_logout, name="logout"),
     url(r'^login/$', user_views.login, name="login"),
     url(r'^user/', include('social_app.urls')),
+    #url(r'^all_profiles/', user_views.ProfileListView.as_view(), name='all_profiles'),
     #url(r'^editprofile/$', user_views.editprofile, name="editprofile"),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

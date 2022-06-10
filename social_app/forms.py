@@ -4,7 +4,7 @@ from social_app.models import Post
 
 class PostForm(forms.ModelForm):
     
-    content = forms.CharField(
+    post_content = forms.CharField(
         label='',
         widget=forms.Textarea(attrs={
             'rows': 5,
@@ -14,5 +14,5 @@ class PostForm(forms.ModelForm):
     
     class Meta:
         model = Post
-        fields = ['content', 'media', 'post_status']
+        fields = ['post_content', 'media', 'post_status']
         
