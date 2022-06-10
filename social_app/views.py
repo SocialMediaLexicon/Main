@@ -27,22 +27,12 @@ def user_profile(request):
 def add_post(request):
     
     if request.method == 'POST':
-
-        post_form = PostForm(data=request.POST, files=request.FILES)
-    
+        post_form = PostForm(data=request.POST, files=request.FILES)    
         if post_form.is_valid():
-
             blogpost = post_form.save(commit=False)
-
             blogpost.author = request.user
-
             blogpost.save()
-
             return redirect('login')
-
-        # else:
-
-        #     print(post_form.error)
 
     else:
 

@@ -19,6 +19,7 @@ class Post(models.Model):
     dislikes = models.ManyToManyField(Profile, blank=True, related_name='post_dislikes')
     created_on = models.DateTimeField(auto_now_add=True)
     post_status = models.CharField(max_length=7, null=False, choices=status)
+    blog_pic = models.ImageField(upload_to="blog_pics", blank=True, null=True)
 
     def __str__(self):
         return self.author

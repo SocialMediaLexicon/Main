@@ -23,10 +23,29 @@
 
 			<div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
                 <a href="{% url 'login' %}" class="btn btn-success d-flex mb-3 justify-content">Go Back Home</a>
-                <a href="#" class="btn btn-success d-flex mb-3 justify-content"> Like</a>
-                <a href="#" class="btn btn-success d-flex mb-3 justify-content"></a>
+                
+                
             </div>
 
+
+ 		<div class="text-center">
+            {% if object.user != user %}
+                {% if follow %}
+                    <form action="{% url 'users:follow-unfollow' %}" method='POST'>
+                        {% csrf_token %}
+                        <input type="hidden" name="profile_id" value={{object.id}}>
+                        <button type="submit" class="btn btn-danger mb-2 w-50">Unfollow</button>
+                    </form>
+                {% else %}
+                    <form action="{% url 'users:follow-unfollow' %}" method='POST'>
+                        {% csrf_token %}
+                        <input type="hidden" name="profile_id" value={{object.id}}>
+                        <button type="submit" class="btn btn-success mb-2 w-50">Follow</button>
+                    </form>
+                {% endif %}
+            {% endif %}
+
+        </div>
         	<hr>
 
 
@@ -54,6 +73,24 @@
 
 
 <br>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+		  ...
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		</div>
+	  </div>
+	</div>
+</div>
 
 
 
@@ -66,4 +103,40 @@
 {% block script %}
 
 	
+<script>
+	$('#exampleModal').on('show.bs.modal', function (event) {
+		var button = $(event.relatedTarget) 
+		var mcontents = button.data('contents') 
+		var mtitle = button.data('title') 
+		
+		var modal = $(this)
+		var mlist = ""
+		var mbody = ""
+
+		if (mtitle === "Followers") {
+			mtitle = mtitle + ' ({{object.user.following.count}})'
+			{% for fs in object.user.following.all %}
+				mlist += `<li class="m-1">
+							<a href="{% url 'users:user_profile_details' id=fs.id %}">
+								{{fs.user}}
+							</a>
+						</li>`
+			{% endfor %}
+			mbody = `<ul>${mlist}</ul>`
+		}
+		if (mtitle === "Following") {
+			mtitle = mtitle + ' ({{object.user.profile.following.count}})'
+			{% for fs in object.user.profile.following.all %}
+				mlist += `<li class="m-1">
+							<a href="{% url 'users:user_profile_details' id=fs.id %}">
+								{{fs.user}}
+							</a>
+						</li>`
+			{% endfor %}
+			mbody = `<ul>${mlist}</ul>`
+		}
+		modal.find('.modal-title').text(mtitle)
+		modal.find('.modal-body').html(mbody)
+	});
+</script>
 {% endblock %}

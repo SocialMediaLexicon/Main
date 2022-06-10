@@ -14,23 +14,23 @@ from social_app.models import Post
 
 # Create your views here.
 
-# @login_required
-# def follow_unfollow_profile(request):
-#     if request.method == 'POST':
-#         my_profile = Profile.objects.get(user = request.user)
-#         pk = request.POST.get('profile_id')
-#         obj = Profile.objects.get(id=id)
+@login_required
+def follow_unfollow_profile(request):
+    if request.method == 'POST':
+        my_profile = Profile.objects.get(user = request.user)
+        id = request.POST.get('profile_id')
+        obj = Profile.objects.get(id=id)
 
-#         if obj.user in my_profile.following.all():
-#             my_profile.following.remove(obj.user)
-#             #notify = Notification.objects.filter(sender=request.user, notification_type=2)
-#             #notify.delete()
-#         else:
-#             my_profile.following.add(obj.user)
-#             #notify = Notification(sender=request.user, user=obj.user, notification_type=2)
-#             #notify.save()
-#         return redirect(request.META.get('HTTP_REFERER'))
-#     return redirect('all_profiles')
+        if obj.user in my_profile.following.all():
+            my_profile.following.remove(obj.user)
+            #notify = Notification.objects.filter(sender=request.user, notification_type=2)
+            #notify.delete()
+        else:
+            my_profile.following.add(obj.user)
+            #notify = Notification(sender=request.user, user=obj.user, notification_type=2)
+            #notify.save()
+        return redirect(request.META.get('HTTP_REFERER'))
+    return redirect('users/all_profiles')
 
 
 def login(request):
