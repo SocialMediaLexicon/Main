@@ -13,12 +13,25 @@ from social_app.models import Post
 
 
 # Create your views here.
-@login_required
-def user_profile(request):
-    queryset = Post.objects.filter(post_status=1)
-    post_dict = {'post_list' : queryset}
 
-    return render(request, "users/login.html")
+# @login_required
+# def follow_unfollow_profile(request):
+#     if request.method == 'POST':
+#         my_profile = Profile.objects.get(user = request.user)
+#         pk = request.POST.get('profile_id')
+#         obj = Profile.objects.get(id=id)
+
+#         if obj.user in my_profile.following.all():
+#             my_profile.following.remove(obj.user)
+#             #notify = Notification.objects.filter(sender=request.user, notification_type=2)
+#             #notify.delete()
+#         else:
+#             my_profile.following.add(obj.user)
+#             #notify = Notification(sender=request.user, user=obj.user, notification_type=2)
+#             #notify.save()
+#         return redirect(request.META.get('HTTP_REFERER'))
+#     return redirect('all_profiles')
+
 
 def login(request):
     queryset = Post.objects.filter(post_status=1)
@@ -102,6 +115,7 @@ def editprofile(request):
     user = request.user
     userpro =UpdateUserForm(instance=user)
     profile_form = UserProfileForm(instance=request.user.profile)
+
     if request.method=="POST":
         user_form = UpdateUserForm(data=request.POST, instance=request.user)
         profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.profile)
@@ -110,7 +124,7 @@ def editprofile(request):
             user_form.save()
             profile_form.save()
             return redirect( 'login')
-    return render(request, "users/editprofile.html")
+    return render(request, "users/editprofile.html", {'user_form':userpro, 'profile_form': profile_form})
 
 # def user_login(request):
 #     return render(request, 'users/login.html')

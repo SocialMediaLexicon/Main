@@ -3,14 +3,14 @@
 {% block title %}User profile{% endblock %}
 
 {% block content %}
-
+<br><br><br>
 <div class="col-md-8 m-auto">
 
     <div class="content-section">
         
         <div class="account-img-container">
             <div class="img-cont">
-                <img class="rounded-circle account-img mx-auto d-block" src="{{user.profile.profile_pic.url}}" alt="image">
+                <img class="rounded-circle account-img mx-auto d-block" src="{{object.profile_pic.url}}" alt="image">
                 
             </div>
         </div>
@@ -19,33 +19,22 @@
 
         <div class="card-body">
             
-            <h4 class="card-title text-center">{{user.first_name}} {{user.last_name}} [{{user.username}}]</h4>
+            <h4 class="card-title text-center">{{object.user.first_name}} {{object.user.last_name}} [{{object.user.username}}]</h4>
 
-			<div class="text-center">
-				{% if object.user != user %}
-					{% if follow %}
-						<form action="{% url 'follow-unfollow-view' %}" method='POST'>
-							{% csrf_token %}
-							<input type="hidden" name="profile_pk" value={{object.id}}>
-							<button type="submit" class="btn btn-danger mb-2 w-50">Unfollow</button>
-						</form>
-					{% else %}
-						<form action="{% url 'follow-unfollow-view' %}" method='POST'>
-							{% csrf_token %}
-							<input type="hidden" name="profile_pk" value={{object.id}}>
-							<button type="submit" class="btn btn-primary mb-2 w-50">Follow</button>
-						</form>
-					{% endif %}
-				{% endif %}
+			<div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
+                <a href="{% url 'login' %}" class="btn btn-success d-flex mb-3 justify-content">Go Back Home</a>
+                <a href="#" class="btn btn-success d-flex mb-3 justify-content"> Like</a>
+                <a href="#" class="btn btn-success d-flex mb-3 justify-content"></a>
+            </div>
 
-			</div>
         	<hr>
+
 
 			<div class="m-t-10 p-15 text-center">
 				<div class="row">
 					<div class="col">
 						<span class="h6">Posts</span>
-						<p><a class="mr-2" href="{% url 'user-posts' object.user %}">{{object.profile_posts.count}}</a></p>
+						<p><a class="mr-2" href="#">{{object.profile_posts.count}}</a></p>
 					</div>
 				
 					<div class="col">

@@ -15,8 +15,9 @@ urlpatterns = [
     # url(r'^user/', include('social_app.urls')),
     url(r'^editprofile/$', views.editprofile, name="editprofile"),
     url(r'^all_profiles/', views.ProfileListView.as_view(), name='all_profiles'),
-    url(r'^par/(?P<pk>[0-9]+)/$/$', views.ProfileDetailView.as_view(), name='user_profile_details'),
-    url(r'^user_profile/$', views.user_profile, name="user_profile"),
+    #url(r'^follow/', views.follow_unfollow_profile, name='follow-unfollow-view'),
+    url(r'^/(?P<id>[0-9]+)/$', views.ProfileDetailView.as_view(), name='user_profile_details'),
+    #url(r'^user_profile/$', views.user_profile, name="user_profile"),
     
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -62,8 +62,8 @@
     <img src="{{profile.profile_pic.url}}" class="card-img-top" alt="..." height="150px" width="150px">
 
     <div class="card-body" style="overflow:hidden;">
-        <h4><a href="{% url 'users:all_profiles'  %}">{{profile}}</a></h4>
-        <h4 class="card-title text-center">{{first_name}} {{last_name}} </h4>
+        <h4><a href="{% url 'users:user_profile_details' profile.id %}">{{profile}}</a></h4>
+        <h4 class="card-title text-center">{{object.profile.first_name}} {{object.profile.last_name}} [{{object.user.username}}] </h4>
       
       
     </div>
