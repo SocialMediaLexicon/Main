@@ -11,6 +11,9 @@ class Profile(models.Model):
     date_of_birth = models.CharField(blank=True,max_length=150)
     profile_pic = models.ImageField(default='default.jpg', upload_to='profile_pics',blank=True, null=True)
 
+    def profile_posts(self):
+        return self.user.post_set.all()
+        
     def __str__(self):
         return self.user.username
 
