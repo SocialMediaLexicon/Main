@@ -1,0 +1,12 @@
+agora-token-builder
+Django==1.11
+django-ckeditor
+django-allauth
+django-cleanup
+django-crispy-forms
+channels
+requests
+bcrypt
+Pillow
+python-dotenv
+django[argon2]

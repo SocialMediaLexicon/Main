@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -34,15 +35,30 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'crispy_forms',
+    'django_cleanup',
+
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'social_app',
+    'django.contrib.humanize',
+
+    'ckeditor',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
+    'social_app.apps.SocialAppConfig',
     'users.apps.UsersConfig',
-    
+    'notification',
+    'friend',
+  #  'chat',
+   # 'channels',
 ]
 
 MIDDLEWARE = [
@@ -71,6 +87,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries' : {
+                'staticfiles': 'django.templatetags.static', 
+            },
         },
     },
 ]
@@ -87,6 +106,9 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+DEFAULT_AUTO_FIELD='django.db.models.AutoField' 
+
 
 
 # Password validation
@@ -143,3 +165,33 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+LOGIN_REDIRECT_URL = 'social_app:blog-home'
+LOGIN_URL = 'users:login'
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'width':'auto',
+    },
+}
+
+
+MESSAGE_TAGS = {
+        messages.DEBUG: 'alert-secondary',
+        messages.INFO: 'alert-info',
+        messages.SUCCESS: 'alert-success',
+        messages.WARNING: 'alert-warning',
+        messages.ERROR: 'alert-danger',
+}
+
+#ASGI_APPLICATION = "social_media.routing.application"
+
+CHANNEL_LAYERS = {
+    "default":{
+        "BACKEND":"channels.layers.InMemoryChannelLayer"
+    },
+}
+
+SITE_ID = 1     # considering 2nd site in 'Sites' to be 127.0.0.1 (for dev)
