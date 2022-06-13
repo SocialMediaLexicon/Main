@@ -1,26 +1,44 @@
-import profile
+from friend.models import FriendList, FriendRequest
+from notification.models import Notification
 from django.shortcuts import render, redirect
 from django.core.files.storage import FileSystemStorage
-from .forms import UserForm, UserProfileForm, UpdateUserForm
+from .forms import UserForm, UserProfileForm, UpdateUserForm, ProfileUpdateForm
 from django.contrib.auth import authenticate, login as dj_login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
-from django.urls import reverse
+from django.contrib import messages
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Profile
 from django.contrib.auth.models import User
 from social_app.models import Post
-from django.views import View
-from .models import Notification
+from friend.utils import get_friend_request_or_false
+from friend.friend_request_status import FriendRequestStatus
+from django.dispatch import receiver 
+from django.contrib.auth.signals import user_logged_in, user_logged_out
 
 # Create your views here.
 
+
+@receiver(user_logged_in)
+def got_online(sender, user, request, **kwargs): 
+    if not user.is_superuser:   
+      user.profile.is_online = True
+      user.profile.save()
+
+@receiver(user_logged_out)
+def got_offline(sender, user, request, **kwargs):  
+    if not user.is_superuser:   
+ 
+      user.profile.is_online = False
+      user.profile.save()
+
+""" Following and Unfollowing users """
 @login_required
 def follow_unfollow_profile(request):
     if request.method == 'POST':
         my_profile = Profile.objects.get(user = request.user)
-        id = request.POST.get('profile_id')
+        id = request.POST.get('profile_pk')
         obj = Profile.objects.get(id=id)
 
         if obj.user in my_profile.following.all():
@@ -34,48 +52,24 @@ def follow_unfollow_profile(request):
         return redirect(request.META.get('HTTP_REFERER'))
     return redirect('users/all_profiles')
 
-
-""" All notifications """
-@login_required
-def ShowNotifications(request):
-    user = request.user
-    notifications = Notification.objects.filter(user=user).order_by('-date')
-    context = {
-        'notifications':notifications,
-    }
-    return render(request, 'users/notifications.html', context)
-
-def login(request):
-    
-    queryset = Post.objects.filter(post_status=1)
-    post_dict = {'post_list' : queryset}
-
+def user_login(request):
     if request.method == 'POST':
-        #user = UserForm(request.POST)
         username = request.POST.get('username')
         password = request.POST.get('password')
-
         user = authenticate(username = username, password = password)
-
         if user:
-            
             if user.is_active:
                 dj_login(request, user)
-                return HttpResponseRedirect(reverse(login))
+                return redirect('/home')
             else:
                 return HttpResponse("ACCOUNT NOT ACTIVE")
-
         else:
-            
             print("Someone tried to login and failed")
             print("Username: {} and password {}".format(username, password))
             return HttpResponse("Invalid login details!")
-            #return 'bla'
 
     else:
-        
-        return render(request, 'users/user_profile.html', context=post_dict)
-     #return render(request, 'users/user_profile.html')
+        return render(request, 'users/login.html')
 
 def register(request):
     registered = False
@@ -114,14 +108,10 @@ def register(request):
                   })
 
 
-def home(request):
-    return render(request, 'users/login.html')
-
-
 @login_required
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect(reverse(home))
+    return render(request, 'users/logout.html')
 
 
 def editprofile(request):
@@ -139,9 +129,37 @@ def editprofile(request):
             return redirect( 'login')
     return render(request, "users/editprofile.html", {'user_form':userpro, 'profile_form': profile_form})
 
-# def user_login(request):
-#     return render(request, 'users/login.html')
+""" User profile """
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        u_form = UpdateUserForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
 
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, f"Your account has been updated!")
+            return redirect('social_app:blog-home')
+    else:
+        u_form = UpdateUserForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+    
+    context = {
+        'u_form':u_form,
+        'p_form':p_form
+    }
+
+    return render(request, 'users/profile.html', context)
+
+
+""" Creating a public profile view """
+def public_profile(request, username):
+    user = User.objects.get(username=username)
+    return render(request, 'users/public_profile.html', {"cuser":user})
+
+
+""" All user profiles """
 class ProfileListView(LoginRequiredMixin,ListView):
     model = Profile
     template_name = "users/all_profiles.html"
@@ -150,20 +168,18 @@ class ProfileListView(LoginRequiredMixin,ListView):
     def get_queryset(self):
         return Profile.objects.all().exclude(user=self.request.user)
 
-
-
-
+""" User profile details view """
 class ProfileDetailView(LoginRequiredMixin,DetailView):
     model = Profile
     template_name = "users/user_profile_details.html"
     context_object_name = "profiles"
-
+    
     def get_queryset(self):
         return Profile.objects.all().exclude(user=self.request.user)
 
     def get_object(self,**kwargs):
-        id = self.kwargs.get("id")
-        view_profile = Profile.objects.get(id=id)
+        pk = self.kwargs.get("pk")
+        view_profile = Profile.objects.get(pk=pk)
         return view_profile
 
     def get_context_data(self, **kwargs):
@@ -175,4 +191,50 @@ class ProfileDetailView(LoginRequiredMixin,DetailView):
         else:
             follow = False
         context["follow"] = follow
+
+        # FRIENDS START
+        account = view_profile.user
+        try:
+            friend_list = FriendList.objects.get(user=account)
+        except FriendList.DoesNotExist:
+            friend_list = FriendList(user=account)
+            friend_list.save()
+        friends = friend_list.friends.all()
+        context['friends']=friends
+
+        is_self = True
+        is_friend = False
+        request_sent = FriendRequestStatus.NO_REQUEST_SENT.value
+        friend_requests = None
+        user=self.request.user
+        if user.is_authenticated and user!=account:
+            is_self = False
+            if friends.filter(pk=user.id):
+                is_friend = True
+            else:
+                is_friend = False
+                # CASE 1: request from them to you
+                if get_friend_request_or_false(sender=account, receiver=user) != False:
+                    request_sent = FriendRequestStatus.THEM_SENT_TO_YOU.value
+                    context['pending_friend_request_id'] = get_friend_request_or_false(sender=account, receiver=user).pk
+                # CASE 2: request you sent to them
+                elif get_friend_request_or_false(sender=user, receiver=account) != False:
+                    request_sent = FriendRequestStatus.YOU_SENT_TO_THEM.value
+                # CASE 3: no request has been sent
+                else:
+                    request_sent = FriendRequestStatus.NO_REQUEST_SENT.value
+
+        elif not user.is_authenticated:
+            is_self = False
+        else:
+            try:
+                friend_requests = FriendRequest.objects.filter(receiver=user, is_active=True)
+            except:
+                pass
+        context['request_sent'] = request_sent
+        context['is_friend'] = is_friend
+        context['is_self'] = is_self
+        context['friend_requests'] = friend_requests
+        # FRIENDS END
+        
         return context

@@ -1,6 +1,6 @@
 from socket import fromshare
 from django import forms 
-from social_app.models import Post
+from social_app.models import Post, PostComments
 
 class PostForm(forms.ModelForm):
     
@@ -14,6 +14,10 @@ class PostForm(forms.ModelForm):
     
     class Meta:
         model = Post
-        exclude = ['author']
         fields = ['post_content', 'media', 'blog_pic', 'post_status']
-        
+
+class PostCommentForm(forms.ModelForm):
+    body = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control custom-txt','cols':'40','rows':'3'}), label='')
+    class Meta:
+        model = PostComments
+        fields = ['body',]        

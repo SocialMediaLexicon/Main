@@ -12,7 +12,7 @@
         
         <div class="account-img-container">
             <div class="img-cont ">
-                <img class="rounded-circle account-img mx-auto d-block" src="{{user.profile.profile_pic.url}}" alt="image" width="200" height="200">
+                <img class="rounded-circle account-img mx-auto d-block" src="{{user.profile.profile_pic.url}}" alt="image">
                 
             </div>
         </div>
@@ -29,7 +29,7 @@
                 <div class="row">
                     <div class="col">
                         <span class="h6">Posts</span>
-                        <p><a class="mr-2" href="">{{user.profile.profile_posts.count}}</a></p>
+                        <p><a class="mr-2" href=""></a></p>
                     </div>
                     
                     <div class="col">
@@ -57,14 +57,15 @@
       </div>
 </div>
 <br><br>
-<div class="card shadow " style="width: 15rem; height: 18rem;" >
+<div class="card shadow " style="width: 15rem; height: 20rem;" >
     
-    <img src="{{profile.profile_pic.url}}" class="card-img-top" alt="..." width="200" height="200">
+    <img src="{{profile.profile_pic.url}}" class="card-img-top" alt="..." height="150px" width="150px">
 
     <div class="card-body" style="overflow:hidden;">
-        <h4 style="text-align: center;"><a href="{% url 'users:user_profile_details' profile.id %}" class="text-success">@{{profile}}</a></h4>
-        
-        
+        <h4><a href="{% url 'users:user_profile_details' profile.id %}">{{profile}}</a></h4>
+        <h4 class="card-title text-center">{{object.profile.first_name}} {{object.profile.last_name}} [{{object.user.username}}] </h4>
+      
+      
     </div>
     
 </div>

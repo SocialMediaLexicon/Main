@@ -1,0 +1,77 @@
+<nav class="navbar navbar-dark bg-success navbar-expand-lg fixed-top" >
+  <a class="navbar-brand" href="{% url 'social_app:blog-home' %}">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3cZfGzcDgrIlm9MHNFNHlW1cKq54JDqAYOA&usqp=CAU" width="30" height="30" alt="logo">
+    Framedoor
+  </a>
+  {% if user.is_authenticated %}
+  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+    <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="{% url 'social_app:blog-home' %}">Home</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="">Hi {{ user.username }}!</a>
+    </li>
+  
+  </ul>
+¨
+  <div class="collapse navbar-collapse justify-content-end" id="navbar-list-4">
+    
+    <div class="navbar-nav input-group justify-content-end">
+      <!-- SEARCHBAR -->
+      <div id="searchbar">
+        <form method="GET" action="/search" style="margin-bottom: 0px">
+          <input required name="query" id="search" type="text" placeholder="Search">
+          <button class="search-btn" type="submit"><i class="fas fa-search"></i></button>
+        </form>
+      </div>
+    </div>
+
+    <ul class="navbar-nav ">
+      <a class="nav-item nav-link" href="#">Chats</a>
+      <a class="nav-item nav-link" href="#">Video</a>
+      <a class="nav-item nav-link" href="{% url 'notification:show-notifications' %}">Notifications</a>
+      
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-edit"></i> Posts
+        </a>
+        
+        <div class="dropdown-menu dropdown-menu-right dropdown-success shadow" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item dropdown-success shadow" href="{% url 'social_app:post-create' %}"><i class="fas fa-plus-circle"></i>&nbsp;&nbsp;New Post</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item dropdown-success" href="{% url 'social_app:posts-follow-view' %}">Feeds</a>
+          <a class="dropdown-item dropdown-success" href="{% url 'social_app:all-like' %}">Liked Posts</a>
+          <a class="dropdown-item dropdown-success" href="{% url 'social_app:all-save' %}">Saved Posts</a>
+          <a class="dropdown-item dropdown-success" href="{% url 'social_app:blog-home' %}">All Posts</a>
+          <a class="dropdown-item dropdown-success" href="{% url 'social_app:user-posts' user %}">My Posts</a>
+        </div>
+      </li>   
+   </ul>
+    
+    
+    <ul class="navbar-nav ">
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="{{ user.profile.profile_pic.url }}" width="40" height="40" class="rounded-circle">
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="{% url 'users:profile-detail-view' user.profile.id %}"><i class="far fa-user"></i>&nbsp;&nbsp;Profile</a>
+          <a class="dropdown-item" href="{% url 'users:public-profile' user %}"><i class="far fa-eye"></i>&nbsp;&nbsp;Public-Profile</a>
+          <a class="dropdown-item" href="{% url 'users:profile' %}"><i class="fas fa-sliders-h"></i>&nbsp;&nbsp;Settings</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="{% url 'users:logout' %}">Log Out</a>
+        </div>
+      </li>   
+    </ul>
+  </div>
+  {% else %}
+  <div class="navbar-nav input-group justify-content-end">
+    <ul class="navbar-nav ">
+      <a class="nav-item nav-link" href="{% url 'users:login' %}">Login</a>
+      <a class="nav-item nav-link" href="{% url 'users:register' %}">Sign Up</a>
+    </ul>
+  </div>
+  {% endif %}
+</nav>
