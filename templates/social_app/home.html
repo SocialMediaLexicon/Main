@@ -82,7 +82,7 @@
         <ul class="list-group">
           {% for user in random_users %}
           {% if not user.is_superuser %}
-            <a href="{% url 'users:profile-detail-view' user.id %}"><li class="list-group-item list-group-item-light">{{ user.username }}</li></a>
+            <a href="{% url 'users:profile-detail-view' user.profile.id %}"><li class="list-group-item list-group-item-light">{{ user.username }}</li></a>
           {% endif %}
           {% endfor %}
   
