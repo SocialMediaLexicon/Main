@@ -5,11 +5,14 @@
 
 <br><br><br><br>
 <div class="d-flex justify-content-center">
-    <form method='POST' action="{% url 'user:add_post' %}" class="d-flex flex-sm-column justify-content-center">
+    <form method='POST' action="{% url 'user:add_post' %}" class="d-flex flex-sm-column justify-content-center" enctype='multipart/form-data'>
         {% csrf_token %}
         {{ form }}
         <br>
         <button class="btn btn-success mt-3" type=submit>Post!</button>
     </form>
 </div>
+
+
+
 {% endblock %}

@@ -34,16 +34,16 @@
     <div class="collapse navbar-collapse justify-content-end" id="navbar-list-4">
       <form class="collapse navbar-collapse justify-content-end" action="" method="POST">
         {% csrf_token %}
-      <div class="input-group rounded" style="width:30%; height:70%">
-        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" id="searched" name="searched"/>
-        <button class="input-group-text border-0" id="search-addon">
-          <i class="fa fa-search"></i>
-        </button>
-      </div>
-    </form>
+        <div class="input-group rounded" style="width:30%; height:70%">
+          <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" id="searched" name="searched"/>
+          <button class="input-group-text border-0" id="search-addon">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </form>
 
     
-        <a class="nav-item nav-link" aria-current="page" href="#">Notifications</a>
+      <a class="nav-item nav-link" aria-current="page" href="{% url 'users:show-notifications' %}">Notifications</a>
       
       
       <ul class="navbar-nav ">

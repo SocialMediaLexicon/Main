@@ -10,7 +10,7 @@
         
         <div class="account-img-container">
             <div class="img-cont">
-                <img class="rounded-circle account-img mx-auto d-block" src="{{object.profile_pic.url}}" alt="image">
+                <img class="rounded-circle account-img mx-auto d-block" src="{{object.profile_pic.url}}" alt="image" width="200" height="200">
                 
             </div>
         </div>
@@ -22,9 +22,8 @@
             <h4 class="card-title text-center">{{object.user.first_name}} {{object.user.last_name}} [{{object.user.username}}]</h4>
 
 			<div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
+                <a href="{% url 'users:all_profiles' %}" class="btn btn-success d-flex mb-3 justify-content" style="margin-right: 4px">See all Profiles</a>
                 <a href="{% url 'login' %}" class="btn btn-success d-flex mb-3 justify-content">Go Back Home</a>
-                
-                
             </div>
 
 
@@ -34,14 +33,28 @@
                     <form action="{% url 'users:follow-unfollow' %}" method='POST'>
                         {% csrf_token %}
                         <input type="hidden" name="profile_id" value={{object.id}}>
-                        <button type="submit" class="btn btn-danger mb-2 w-50">Unfollow</button>
+                        <button type="submit" class="btn btn-info mb-2 w-40">Unfollow</button>
                     </form>
                 {% else %}
                     <form action="{% url 'users:follow-unfollow' %}" method='POST'>
                         {% csrf_token %}
                         <input type="hidden" name="profile_id" value={{object.id}}>
-                        <button type="submit" class="btn btn-success mb-2 w-50">Follow</button>
+                        <button type="submit" class="btn btn-success mb-2 w-40">Follow</button>
                     </form>
+
+                    {% for post in post_list %}
+            <div class="card shadow " style="width: 20rem; height: 23rem;" >
+                
+                <img src="{{ post.photo_url }}" class="card-img-top" alt="..." height="150px" width="150px">
+                <div class="card-body" style="overflow:hidden;">
+                    <h5><a href="{% url 'users:user_profile_details' post.author.profile.id %}" class="text-success">@{{post.author}}</a></h5>
+                    <p class="card-text"><small>{{post.created_on}}</small></p>
+                    <h6 class="card-text">{{ post.post_content | truncatechars:50}}</h6>
+            
+                </div>
+
+            </div>
+    {% endfor %} 
                 {% endif %}
             {% endif %}
 
@@ -73,27 +86,6 @@
 
 
 <br>
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-	  <div class="modal-content">
-		<div class="modal-header">
-		  <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		  </button>
-		</div>
-		<div class="modal-body">
-		  ...
-		</div>
-		<div class="modal-footer">
-		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-		</div>
-	  </div>
-	</div>
-</div>
-
-
-
 
 
 

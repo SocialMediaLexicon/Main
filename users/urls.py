@@ -5,6 +5,7 @@ from social_app.views import add_post
 from users.views import ProfileListView
 from django.conf import settings
 from django.conf.urls.static import static
+from .views import ShowNotifications
 
 app_name = 'users'
 
@@ -16,6 +17,8 @@ urlpatterns = [
     url(r'^all_profiles/', views.ProfileListView.as_view(), name='all_profiles'),
     url(r'^follow/', views.follow_unfollow_profile, name='follow-unfollow'),
     url(r'^person/(?P<id>[0-9]+)/$', views.ProfileDetailView.as_view(), name='user_profile_details'),
+    url(r'^$', ShowNotifications, name='show-notifications'),
+
  
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,3 +1,4 @@
+import profile
 from django.shortcuts import render, redirect
 from django.core.files.storage import FileSystemStorage
 from .forms import UserForm, UserProfileForm, UpdateUserForm
@@ -10,7 +11,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Profile
 from django.contrib.auth.models import User
 from social_app.models import Post
-
+from django.views import View
+from .models import Notification
 
 # Create your views here.
 
@@ -23,28 +25,38 @@ def follow_unfollow_profile(request):
 
         if obj.user in my_profile.following.all():
             my_profile.following.remove(obj.user)
-            #notify = Notification.objects.filter(sender=request.user, notification_type=2)
-            #notify.delete()
+            notify = Notification.objects.filter(sender=request.user, notification_type=2)
+            notify.delete()
         else:
             my_profile.following.add(obj.user)
-            #notify = Notification(sender=request.user, user=obj.user, notification_type=2)
-            #notify.save()
+            notify = Notification(sender=request.user, user=obj.user, notification_type=2)
+            notify.save()
         return redirect(request.META.get('HTTP_REFERER'))
     return redirect('users/all_profiles')
 
 
+""" All notifications """
+@login_required
+def ShowNotifications(request):
+    user = request.user
+    notifications = Notification.objects.filter(user=user).order_by('-date')
+    context = {
+        'notifications':notifications,
+    }
+    return render(request, 'users/notifications.html', context)
+
 def login(request):
+    
     queryset = Post.objects.filter(post_status=1)
     post_dict = {'post_list' : queryset}
-    #user = UserForm()
-    #print(user.username, user.password)
+
     if request.method == 'POST':
         #user = UserForm(request.POST)
         username = request.POST.get('username')
         password = request.POST.get('password')
 
         user = authenticate(username = username, password = password)
-        # print(user)
+
         if user:
             
             if user.is_active:
@@ -61,6 +73,7 @@ def login(request):
             #return 'bla'
 
     else:
+        
         return render(request, 'users/user_profile.html', context=post_dict)
      #return render(request, 'users/user_profile.html')
 
@@ -138,6 +151,8 @@ class ProfileListView(LoginRequiredMixin,ListView):
         return Profile.objects.all().exclude(user=self.request.user)
 
 
+
+
 class ProfileDetailView(LoginRequiredMixin,DetailView):
     model = Profile
     template_name = "users/user_profile_details.html"
@@ -151,12 +166,13 @@ class ProfileDetailView(LoginRequiredMixin,DetailView):
         view_profile = Profile.objects.get(id=id)
         return view_profile
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     view_profile = self.get_object()
-    #     my_profile = Profile.objects.get(user=self.request.user)
-    #     if view_profile.user in my_profile.following.all():
-    #         follow = True
-    #     else:
-    #         follow = False
-    #     context["follow"] = follow
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        view_profile = self.get_object()
+        my_profile = Profile.objects.get(user=self.request.user)
+        if view_profile.user in my_profile.following.all():
+            follow = True
+        else:
+            follow = False
+        context["follow"] = follow
+        return context

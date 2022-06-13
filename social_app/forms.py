@@ -14,5 +14,6 @@ class PostForm(forms.ModelForm):
     
     class Meta:
         model = Post
+        exclude = ['author']
         fields = ['post_content', 'media', 'blog_pic', 'post_status']
         

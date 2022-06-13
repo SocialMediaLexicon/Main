@@ -39,10 +39,4 @@ def add_post(request):
         post_form = PostForm()
     return render(request, 'social_app/add_post.html', {'form': post_form }) 
 
-    # if request.method == 'GET':
-    #     if request.user.is_authenticated():
-    #         profile = request.user.username
-    #         print(profile) 
-            # form.author = request.user.username
-    # print(form.author)
 
