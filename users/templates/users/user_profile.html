@@ -60,7 +60,15 @@
         
         <img src="{{ post.photo_url }}" class="card-img-top" alt="..." height="150px" width="150px">
           <div class="card-body" style="overflow:hidden;">
+<<<<<<< Updated upstream
             <h5><a href="{% url 'users:user_profile_details' post.author.profile.id %}" class="text-success">@{{post.author}}</a></h5>
+=======
+            {% if post.author.id != request.user.id %}
+            <h5><a href="{% url 'users:user_profile_details' post.author.profile.id %}" class="text-success">@{{post.author}}</a></h5>
+            {% else %}
+            <h5>@{{post.author}}</h5>
+            {% endif %}
+>>>>>>> Stashed changes
             <p class="card-text"><small>{{post.created_on}}</small></p>
             <h6 class="card-text">{{ post.post_content | truncatechars:50}}</h6>
             
