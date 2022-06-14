@@ -23,6 +23,9 @@ body {
 h2 {
     color: rgb(22, 131, 150);
 }
+h4 {
+    color: rgb(22, 131, 150);
+}
 
 /* First page i.e Login */
 
@@ -53,7 +56,7 @@ h2 {
 }
 
 .login .arrow-down {
-    border-top: 20px solid #279e7a;
+    border-top: 20px solid #28b346;
 }
 
 
@@ -61,7 +64,7 @@ h2 {
     padding: .7em 0;
     color: #fff;
     position: relative;
-    background-color: #279e7a;
+    background-color: #28b346;
 }
 
 .login--header h3 {

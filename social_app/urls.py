@@ -1,9 +1,23 @@
-from django.conf.urls import url
+from django.urls import path
 from social_app import views
-from social_app.views import add_post
+from social_app.views import AllSaveView, PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, SaveView, UserPostListView, LikeView,LikeCommentView, posts_of_following_profiles,  AllLikeView
 
-app_name = "user"
+app_name = "social_app"
 urlpatterns = [
-    url(r'^add_post/', views.add_post, name='add_post'),
+    path('', views.first, name='firsthome'),
+    path('home/', PostListView.as_view(), name='blog-home'),
+    path('feed/', posts_of_following_profiles, name='posts-follow-view'),
+    path('post/user/<str:username>/', UserPostListView.as_view(), name='user-posts'),
+    path('post/<int:pk>/', PostDetailView, name='post-detail'),
+    path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),
+    path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
+    path('post/new/', PostCreateView.as_view(), name='post-create'),
+    path('post/like/', LikeView, name='post-like'),
+    path('liked-posts/', AllLikeView, name='all-like'),
+    path('post/save/', SaveView, name='post-save'),
+    path('saved-posts/', AllSaveView, name='all-save'),
+    path('post/comment/like/', LikeCommentView, name='comment-like'),
+    path('about/', views.about, name='blog-about'),
+    path('search/', views.search, name='search'),
     
 ]
