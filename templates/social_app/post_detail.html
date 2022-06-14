@@ -21,15 +21,18 @@
     <hr>
     
     <h3 class="d-inline"><a class="article-title" href="{% url 'social_app:post-detail' post.id %}">{{ post.title }}</a></h3>
+    
     {% if post.author == user %}
         <div class="d-inline float-right">
             &nbsp;&nbsp;&nbsp;<a class="btn btnedit" href="{% url 'social_app:post-update' post.id %}"><i class="far fa-edit"></i></a>
             &nbsp;&nbsp;&nbsp;<a class="btn btndel" href="{% url 'social_app:post-delete' post.id %}"><i class="far fa-trash-alt"></i></a>
         </div>
     {% endif %} 
-    
-
     <hr>
+          {% if post.blog_pic %}
+          <img src="{{ post.photo_url }}" class="card-img-top" alt="..." height="200px" width="50px">
+          <hr>
+          {% endif %}
     <p class="article-content">{{ post.content|safe }}</p>
 </article>
 

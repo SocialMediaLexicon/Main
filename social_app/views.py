@@ -289,22 +289,30 @@ def PostDetailView(request,pk):
 """ Create post """
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields =['title', 'content']
+    fields =['title', 'content', 'blog_pic']
     
     def form_valid(self, form):
         form.instance.author = self.request.user
-        return super().form_valid(form)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.save()
+        return super(PostCreateView, self).form_valid(form)
+        # 
+        # return super().form_valid(form)
 
 
 
 """ Update post """
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields =['title', 'content']
+    fields =['title', 'content', 'blog_pic']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        return super().form_valid(form)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.save()
+        return super(PostUpdateView, self).form_valid(form)
 
     def test_func(self):
         post = self.get_object()

@@ -23,7 +23,10 @@
       <h3><a class="article-title" href="{% url 'social_app:post-detail' post.id %}">{{ post.title }}</a></h3>
 
       <hr>
-      
+       {% if post.blog_pic %}
+          <img src="{{ post.photo_url }}" class="card-img-top" alt="..." height="200px" width="50px">
+          <hr>
+          {% endif %}
       <p class="article-content">{{ post.content|safe }}</p>
     </article>
     

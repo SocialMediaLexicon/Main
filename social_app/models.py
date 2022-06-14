@@ -37,6 +37,11 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def photo_url(self):
+        if self.blog_pic and hasattr(self.blog_pic, 'url'):
+            return self.blog_pic.url
+
     def get_absolute_url(self):
         return reverse('social_app:post-detail', kwargs={"pk":self.pk})
     
