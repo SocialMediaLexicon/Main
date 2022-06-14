@@ -11,7 +11,7 @@
             <img class="rounded-circle article-img " src="{{post.author.profile.profile_pic.url}}" alt="image">
               <div class="media-body">
                   <p class="mb-0">
-                    <a class="mr-2 h4" href="{% url 'users:profile-detail-view' post.author.profile.id %}">{{ post.author }}</a>
+                    <a class="mr-2 h4 text-success" href="{% url 'users:profile-detail-view' post.author.profile.id %}" >{{ post.author }}</a>
                   </p>
                   <small class="text-muted">{{ post.date_posted|date:"F d, Y-h:i A" }}</small>
               </div>
@@ -19,7 +19,7 @@
           <hr>
           <h3><a class="article-title" href="{% url 'social_app:post-detail' post.id %}">{{ post.title }}</a></h3>
           <hr>
-          <p class="article-content">{{ post.content|safe|linebreaks|truncatewords_html:"20" }}<a href="{% url 'social_app:post-detail' post.id %}">[Read full post]</a></p>
+          <p class="article-content">{{ post.content|safe|linebreaks|truncatewords_html:"20" }}<a href="{% url 'social_app:post-detail' post.id %}" class="text-success">[Read full post]</a></p>
         </article>
         
       {% endfor %}
@@ -27,21 +27,21 @@
     {% if is_paginated %}
 
       {% if page_obj.has_previous %}
-        <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
-        <a class="btn btn-outline-info mb-4" href="?page={{page_obj.previous_page_number}}">Previous</a>
+        <a class="btn btn-outline-success mb-4" href="?page=1">First</a>
+        <a class="btn btn-outline-success mb-4" href="?page={{page_obj.previous_page_number}}">Previous</a>
       {% endif %}
 
       {% for num in page_obj.paginator.page_range %}
         {% if page_obj.number == num %}
-          <a class="btn btn-info mb-4" href="?page={{num}}">{{num}}</a>
+          <a class="btn btn-success mb-4" href="?page={{num}}">{{num}}</a>
         {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-        <a class="btn btn-outline-info mb-4" href="?page={{num}}">{{num}}</a>
+        <a class="btn btn-outline-success mb-4" href="?page={{num}}">{{num}}</a>
         {% endif %}
       {% endfor %}
 
       {% if page_obj.has_next %}
-        <a class="btn btn-outline-info mb-4" href="?page={{page_obj.next_page_number}}">Next</a>
-        <a class="btn btn-outline-info mb-4" href="?page={{page_obj.paginator.num_pages}}">Last</a>
+        <a class="btn btn-outline-success mb-4" href="?page={{page_obj.next_page_number}}">Next</a>
+        <a class="btn btn-outline-success mb-4" href="?page={{page_obj.paginator.num_pages}}">Last</a>
       {% endif %}
 
     {% endif %}
@@ -76,13 +76,13 @@
 
   <!-- PEOPLE YOU CAN FOLLOW -->
 
-  <div class="content-section " style="border-top: 4px solid blue;">
+  <div class="content-section " style="border-top: 4px solid green;">
     <h4>You can follow</h4>
     <br>
         <ul class="list-group">
           {% for user in random_users %}
           {% if not user.is_superuser %}
-            <a href="{% url 'users:profile-detail-view' user.id %}"><li class="list-group-item list-group-item-light">{{ user.username }}</li></a>
+            <a href="{% url 'users:profile-detail-view' user.profile.id %}"><li class="list-group-item list-group-item-light">{{ user.username }}</li></a>
           {% endif %}
           {% endfor %}
   

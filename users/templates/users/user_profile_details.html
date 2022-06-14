@@ -24,10 +24,10 @@
         <p class="card-text text-center text-muted">{{object.user.profile.bio}}</p>
 
 		<ul class="social-links list-inline text-center m-4">
-			<li class="list-inline-item m-1"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips btn-primary" href="" data-original-title="Facebook"><i class="fab fa-facebook"></i></a></li>
+			<li class="list-inline-item m-1"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips btn-success" href="" data-original-title="Facebook"><i class="fab fa-facebook"></i></a></li>
 			<li class="list-inline-item m-1"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips btn-info" href="" data-original-title="Twitter"><i class="fab fa-twitter"></i></a></li>
 			<li class="list-inline-item m-1"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips btn-danger" href="" data-original-title="Skype"><i class="fab fa-instagram"></i></a></li>
-			<li class="list-inline-item m-1"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips btn-primary" href="" data-original-title="Linkedin"><i class="fab fa-linkedin"></i></a></li>
+			<li class="list-inline-item m-1"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips btn-success" href="" data-original-title="Linkedin"><i class="fab fa-linkedin"></i></a></li>
 		</ul>
 
         <div class="text-center">
@@ -42,7 +42,7 @@
                     <form action="{% url 'users:follow-unfollow-view' %}" method='POST'>
                         {% csrf_token %}
                         <input type="hidden" name="profile_pk" value={{object.pk}}>
-                        <button type="submit" class="btn btn-primary mb-2 w-50">Follow</button>
+                        <button type="submit" class="btn btn-success mb-2 w-50">Follow</button>
                     </form>
                 {% endif %}
             {% endif %}
@@ -71,7 +71,7 @@
 				<!-- No requests have been sent -->
 				{% if request_sent == -1 %}
 					<div class="d-flex flex-column align-items-center pt-4">
-						<button class="btn btn-primary w-50" id="id_send_friend_request_btn">
+						<button class="btn btn-success w-50" id="id_send_friend_request_btn">
 							Send Friend Request
 						</button>
 					</div>
@@ -189,7 +189,7 @@
 <div>
 
 	{% if is_friend %}
-		<a class="align-items-center btn btn-primary d-flex flex-column" href="#"> <!-- 'chat:room-choice' object.user.id-->
+		<a class="align-items-center btn btn-success d-flex flex-column" href="#"> <!-- 'chat:room-choice' object.user.id-->
 			<i class="fas fa-comments"></i>&nbsp;&nbsp;Message
 		</a>
 	{% endif %}

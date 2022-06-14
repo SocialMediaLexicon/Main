@@ -10,29 +10,35 @@
   body{
     background-color: #fff;
   }
+  .mt-5{
+    margin-top: -3rem !important
+  }
 </style>
 
 <div>
     
+  <img class="bg obj-fit-cover" src="https://www.esearchadvisors.com/blog/wp-content/uploads/2018/12/Blog-banner.jpg" width="100%" height="20%">
+  <br>
+  <h1 class="page-header-title" style="text-align: center;">Welcome to Framedoor! <br> share and explore your thoughts.</h1>
+
     <!-- Page Hero-->
-    <section class=" page-header page-header-light bg-white mt-5">
+    <br>
+    <section class=" page-header page-header-light bg-white mt-5 mt-5x" style="margin-top: -3rem">
       <div class="page-header-content pt-5">
           <div class="container">
               <div class="row align-items-center">
                   <div class="col-lg-6 " data-aos="fade-up">
-                      <h1 class="page-header-title">Let’s Wow your online presence</h1>
-                      <br>
-                      <p class="page-header-text mb-5">Surround yourself with people who are going to lift you higher. Join today and share your thoughts.</p>
+                      <p class="page-header-text mb-5">No matter how strong technologies have taken over the world, blogs are always the source of knowledge & inspiration.</p>
                       
                       {% if user.is_authenticated %}
-                        <a class="btn btn-lg btn-primary font-weight-500 mr-3" href="{% url 'social_app:posts-follow-view' %}">FEEDS</a>
-                        <a class="btn btn-lg btn-primary-soft text-primary font-weight-500" href="#"><i class="far fa-check-circle"></i>&nbsp;LOGGED IN</a>
+                        <a class="btn btn-lg btn-success font-weight-500 mr-3" href="{% url 'social_app:posts-follow-view' %}">FEEDS</a>
+                        <a class="btn btn-lg btn-success-soft text-success font-weight-500" href="#"><i class="far fa-check-circle"></i>&nbsp;LOGGED IN</a>
                       {% else %}
-                        <a class="btn btn-lg btn-primary font-weight-500 mr-3" href="{% url 'users:register' %}">REGISTER</a>
-                        <a class="btn btn-lg btn-primary-soft text-primary font-weight-500" href="{% url 'users:login' %}">LOGIN</a>
+                        <a class="btn btn-lg btn-success font-weight-500 mr-3" href="{% url 'users:register' %}">REGISTER</a>
+                        <a class="btn btn-lg btn-success-soft text-success font-weight-500" href="{% url 'users:login' %}">LOGIN</a>
                       {% endif %}
                   </div>
-                  <div class="col-lg-6 d-none d-lg-block" data-aos="fade-up" data-aos-delay="100"><img class="img-fluid" src="/static/social_app/images/undraw_social_interaction_cy9i.png" /></div>
+                    <div class="col-lg-6 d-none d-lg-block" data-aos="fade-up" data-aos-delay="100"><img class="img-fluid" src="/static/social_app/images/download.png" /></div>
               </div>
           </div>
       </div>

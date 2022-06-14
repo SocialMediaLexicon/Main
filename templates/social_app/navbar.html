@@ -1,4 +1,4 @@
-<nav class="navbar navbar-dark bg-info navbar-expand-lg fixed-top" >
+<nav class="navbar navbar-dark bg-success navbar-expand-lg fixed-top" >
   <a class="navbar-brand" href="{% url 'social_app:blog-home' %}">
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3cZfGzcDgrIlm9MHNFNHlW1cKq54JDqAYOA&usqp=CAU" width="30" height="30" alt="logo">
     Framedoor
@@ -38,14 +38,14 @@
           <i class="fas fa-edit"></i> Posts
         </a>
         
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="{% url 'social_app:post-create' %}"><i class="fas fa-plus-circle"></i>&nbsp;&nbsp;New Post</a>
+        <div class="dropdown-menu dropdown-menu-right dropdown-success shadow" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item dropdown-success shadow" href="{% url 'social_app:post-create' %}"><i class="fas fa-plus-circle"></i>&nbsp;&nbsp;New Post</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="{% url 'social_app:posts-follow-view' %}">Feeds</a>
-          <a class="dropdown-item" href="{% url 'social_app:all-like' %}">Liked Posts</a>
-          <a class="dropdown-item" href="{% url 'social_app:all-save' %}">Saved Posts</a>
-          <a class="dropdown-item" href="{% url 'social_app:blog-home' %}">All Posts</a>
-          <a class="dropdown-item" href="{% url 'social_app:user-posts' user %}">My Posts</a>
+          <a class="dropdown-item dropdown-success" href="{% url 'social_app:posts-follow-view' %}">Feeds</a>
+          <a class="dropdown-item dropdown-success" href="{% url 'social_app:all-like' %}">Liked Posts</a>
+          <a class="dropdown-item dropdown-success" href="{% url 'social_app:all-save' %}">Saved Posts</a>
+          <a class="dropdown-item dropdown-success" href="{% url 'social_app:blog-home' %}">All Posts</a>
+          <a class="dropdown-item dropdown-success" href="{% url 'social_app:user-posts' user %}">My Posts</a>
         </div>
       </li>   
    </ul>

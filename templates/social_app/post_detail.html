@@ -11,7 +11,7 @@
     <div class="media">
         <img class="rounded-circle article-img" src="{{post.author.profile.profile_pic.url}}" alt="image">
         <div class="media-body">
-            <h4 class="d-inline"><a class="mr-2" href="{% url 'users:profile-detail-view' post.author.profile.id %}">{{ post.author }}</a></h4>
+            <h4 class="d-inline"><a class="mr-2 text-success" href="{% url 'users:profile-detail-view' post.author.profile.id %}">{{ post.author }}</a></h4>
             <div id="save-section">
                 {% include 'social_app/save_section.html' %}
             </div>

@@ -16,7 +16,7 @@
     <div class="card">
         <div class="card-body">
             <img class="rounded-circle article-img" src="{{notification.sender.profile.profile_pic.url}}" alt="image">
-            <span class="card-title h4"><a href="{% url 'users:profile-detail-view' notification.sender.profile.id %}" >{{notification.sender}}</a></span>
+            <span class="card-title h4"><a href="{% url 'users:profile-detail-view' notification.sender.profile.id %}" class="text-success">{{notification.sender}}</a></span>
             <span class="text-muted float-right small">{{notification.date|naturaltime}}</span>
             <br><br>
             {% if notification.notification_type == 1 %}
