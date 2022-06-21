@@ -22,14 +22,7 @@ class Post(models.Model):
     blog_pic = models.ImageField(upload_to="blog_pics", blank=True, null=True)
 
     def __str__(self):
-        return str(self.author)
-
-    @property
-    def photo_url(self):
-        if self.blog_pic and hasattr(self.blog_pic, 'url'):
-            return self.blog_pic.url
-    
-    
+        return self.author
     
     
 class PostComments(models.Model):

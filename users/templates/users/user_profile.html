@@ -1,6 +1,5 @@
 {% extends "social_app/base.html" %}
- {% load static %}
-        {% load staticfiles %}
+
 
 
 {% block content %}
@@ -12,7 +11,7 @@
         
         <div class="account-img-container">
             <div class="img-cont">
-                <img class="rounded-circle account-img mx-auto d-block" src="{{user.profile.profile_pic.url}}" alt="image" width="200" height="200">
+                <img class="rounded-circle account-img mx-auto d-block" src="{{user.profile.profile_pic.url}}" alt="image">
                 
             </div>
         </div>
@@ -22,9 +21,9 @@
             <h4 class="card-title text-center">{{user.first_name}} {{user.last_name}} [{{user.username}}]</h4>
             
             <div class="d-flex flex-row bd-highlight mb-3 justify-content-center">
-                <a href="{% url 'users:all_profiles' %}" class="btn btn-success d-flex mb-3 justify-content" style="margin-right: 4px">See all Profiles</a>
+                <a href="{% url 'users:all_profiles' %}" class="btn btn-success d-flex mb-3 justify-content">See all Profiles</a>
                 <a href="{% url 'user:add_post' %}" class="btn btn-success d-flex mb-3 justify-content"> Post</a>
-                
+                <a href="#" class="btn btn-success d-flex mb-3 justify-content"></a>
             </div>
 
             <hr tyle="height:3px;border-width:0;color:gray;background-color:gray">
@@ -51,18 +50,16 @@
     
     </div>
 </div>
-
 <div class="container mt-5 mb-3">
   <div class="row">
 
     {% for post in post_list %}
     <div class="card shadow " style="width: 20rem; height: 23rem;" >
-        
-        <img src="{{ post.photo_url }}" class="card-img-top" alt="..." height="150px" width="150px">
+         
+        <img src="{{ post.blog_pics.url }}" class="card-img-top" alt="..." height="150px" width="150px">
           <div class="card-body" style="overflow:hidden;">
-            <h5><a href="{% url 'users:user_profile_details' post.author.profile.id %}" class="text-success">@{{post.author}}</a></h5>
-            <p class="card-text"><small>{{post.created_on}}</small></p>
-            <h6 class="card-text">{{ post.post_content | truncatechars:50}}</h6>
+            <h5 class="card-title">{{post.author}}</h5> 
+            <p class="card-text">{{ post.post_content | truncatechars:50}}</p>
             
           </div>
           
@@ -83,5 +80,10 @@
 
 
 {% block script %}
-   
+    <script>
+        function picupload(){
+            const imgf = document.getElementById('id_image')
+            imgf.click()
+        }
+    </script>
 {% endblock %}
